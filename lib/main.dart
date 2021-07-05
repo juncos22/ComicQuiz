@@ -1,5 +1,4 @@
-import 'package:comic_quiz/blocs/account_bloc.dart';
-import 'package:comic_quiz/blocs/states/account_state.dart';
+import 'package:comic_quiz/blocs/account/account_bloc.dart';
 import 'package:comic_quiz/screens/congrat_screen.dart';
 import 'package:comic_quiz/screens/fail_screen.dart';
 import 'package:comic_quiz/screens/level_screen.dart';
