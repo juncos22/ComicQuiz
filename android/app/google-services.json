@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "84497446384",
+    "project_id": "nicolas-comic-quiz",
+    "storage_bucket": "nicolas-comic-quiz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84497446384:android:a122e7c5cbacd977761935",
+        "android_client_info": {
+          "package_name": "dev.nicolas.comic_quiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84497446384-dvo69pgoeqnandn6obsbi470dtro9p9j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.nicolas.comic_quiz",
+            "certificate_hash": "b0e6ca2250c28970a8af78fa5c1dc0067f6c0a11"
+          }
+        },
+        {
+          "client_id": "84497446384-kgdpsj4i1du0bfvanqffpkgt6ttdbf7v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLX3_cHZ5EHiv04SY8rhX7-BhkcywHXOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84497446384-kgdpsj4i1du0bfvanqffpkgt6ttdbf7v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
