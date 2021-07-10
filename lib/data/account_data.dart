@@ -16,4 +16,8 @@ class AccountData {
   Future<void> signOut() async {
     await _auth.signOut();
   }
+
+  User? getUser() {
+    return this._auth.currentUser;
+  }
 }

@@ -1,5 +1,5 @@
-import 'package:comic_quiz/blocs/account/account_bloc.dart';
-import 'package:comic_quiz/widgets/login_form.dart';
+import 'package:comic_quiz/blocs/account/authentication_bloc.dart';
+import 'package:comic_quiz/ui/login/components/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,11 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: size.width - 10,
         height: size.height - 10,
-        child: BlocListener<AccountBloc, AccountState>(
+        child: BlocListener<AuthenticationBLoC, AuthenticationState>(
           listener: (context, state) {
-            if (state is AuthenticatedState) {
-              Navigator.of(context).pushNamed('level');
-              Navigator.pop(context);
+            if (state is LoginSuccessState) {
+              Navigator.pushReplacementNamed(context, 'main');
+            }
+            if (state is LoginFailureState) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.error)));
             }
           },
           child: SingleChildScrollView(
@@ -41,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 107.0,
                   height: 110.0,
                   child: CircleAvatar(
-                    child: Image(image: AssetImage('lib/images/icon.png')),
+                    child: Image(image: AssetImage('assets/img/icon.png')),
                   ),
                 ),
                 SizedBox(
@@ -51,15 +54,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   'Ingresa con tu cuenta',
                   style: TextStyle(fontFamily: 'ComicNeue', fontSize: 18.0),
                 ),
-                BlocBuilder<AccountBloc, AccountState>(
+                BlocBuilder<AuthenticationBLoC, AuthenticationState>(
                   builder: (context, state) {
-                    if (state is LoadingState) {
+                    if (state is LoggingInState) {
                       return Container(
                         width: 20.0,
                         height: 20.0,
                         child: CircularProgressIndicator(),
                       );
-                    } else if (state is Failure) {
+                    } else if (state is LoginFailureState) {
                       return Container(
                         width: size.width - 30,
                         height: 30.0,
@@ -153,8 +156,8 @@ class _LoginScreenState extends State<LoginScreen> {
       String email = this._emailController.value.text;
       String password = this._passwordController.value.text;
 
-      var bloc = BlocProvider.of<AccountBloc>(context);
-      bloc.add(LoginEvent(email, password));
+      var bloc = BlocProvider.of<AuthenticationBLoC>(context);
+      bloc.add(RequestLoginEvent(email, password));
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Complete los campos')));

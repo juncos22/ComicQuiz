@@ -12,9 +12,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, 'login');
+
+    Future.delayed(Duration(seconds: 2), () async {
+      return await Navigator.pushReplacementNamed(context, 'menu');
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -36,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 144.0,
             child: CircleAvatar(
               child: Image(
-                image: AssetImage('lib/images/icon.png'),
+                image: AssetImage('assets/img/icon.png'),
               ),
             ),
           ),

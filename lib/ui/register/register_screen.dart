@@ -1,5 +1,5 @@
-import 'package:comic_quiz/blocs/account/account_bloc.dart';
-import 'package:comic_quiz/widgets/register_form.dart';
+import 'package:comic_quiz/blocs/account/authentication_bloc.dart';
+import 'package:comic_quiz/ui/register/components/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 width: 107.0,
                 height: 110.0,
                 child: CircleAvatar(
-                  child: Image(image: AssetImage('lib/images/icon.png')),
+                  child: Image(image: AssetImage('assets/img/icon.png')),
                 ),
               ),
               SizedBox(
@@ -57,21 +57,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 'Crea una cuenta',
                 style: TextStyle(fontFamily: 'ComicNeue', fontSize: 18.0),
               ),
-              BlocConsumer<AccountBloc, AccountState>(
+              BlocConsumer<AuthenticationBLoC, AuthenticationState>(
                 listener: (context, state) {
-                  if (state is AuthenticatedState) {
+                  if (state is AccountStateChanged) {
                     Navigator.pushNamed(context, 'level');
                     Navigator.pop(context);
                   }
                 },
                 builder: (context, state) {
-                  if (state is LoadingState) {
+                  if (state is LoggingInState) {
                     return Container(
                       width: 20.0,
                       height: 20.0,
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is Failure) {
+                  } else if (state is LoginFailureState) {
                     return Container(
                       width: size.width - 30,
                       height: 30.0,

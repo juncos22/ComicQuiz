@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AccountRepo {
   final AccountData _accountData = new AccountData();
+  User? get user => this._accountData.getUser();
 
   Future<User?> signUp(String email, String password) async {
     try {
