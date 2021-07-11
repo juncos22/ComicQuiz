@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     passwordController: this._passwordController,
                     onPressed: this._startLogin),
                 SizedBox(
-                  height: 25.0,
+                  height: 10.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Text('O ingresa con tus redes'),
                 SizedBox(
-                  height: 15.0,
+                  height: 10.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50.0,
                       child: TextButton(
                           onPressed: () {},
-                          child: Image.asset('lib/images/google.png')),
+                          child: Image.asset('assets/img/google.png')),
                     ),
                     SizedBox(
                       width: 38.0,
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50.0,
                       child: TextButton(
                           onPressed: () {},
-                          child: Image.asset('lib/images/facebook.png')),
+                          child: Image.asset('assets/img/facebook.png')),
                     ),
                     SizedBox(
                       width: 38.0,
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50.0,
                       child: TextButton(
                           onPressed: () {},
-                          child: Image.asset('lib/images/twitter.png')),
+                          child: Image.asset('assets/img/twitter.png')),
                     )
                   ],
                 )
@@ -151,16 +151,18 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _startLogin() {
-    if (this._emailController.value.text.isNotEmpty &&
-        this._passwordController.value.text.isNotEmpty) {
-      String email = this._emailController.value.text;
-      String password = this._passwordController.value.text;
+    if (this._formKey.currentState!.validate()) {
+      if (this._emailController.value.text.isNotEmpty &&
+          this._passwordController.value.text.isNotEmpty) {
+        String email = this._emailController.value.text;
+        String password = this._passwordController.value.text;
 
-      var bloc = BlocProvider.of<AuthenticationBLoC>(context);
-      bloc.add(RequestLoginEvent(email, password));
-    } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Complete los campos')));
+        var bloc = BlocProvider.of<AuthenticationBLoC>(context);
+        bloc.add(RequestLoginEvent(email, password));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Complete los campos')));
+      }
     }
   }
 }

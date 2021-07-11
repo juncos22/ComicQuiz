@@ -25,56 +25,60 @@ class _RegisterFormState extends State<RegisterForm> {
     return SingleChildScrollView(
       child: Form(
         key: widget.formKey,
+        autovalidateMode: AutovalidateMode.always,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 278.0,
-              height: 50.0,
+              width: 300.0,
+              height: 60.0,
+              padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   color: Colors.amber),
               child: TextFormField(
                 controller: widget.emailController,
                 keyboardType: TextInputType.emailAddress,
+                // autovalidateMode: AutovalidateMode.always,
+                validator: (value) =>
+                    (!value!.contains('@')) ? 'Email invalido' : null,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(color: Colors.amber)),
-                    hintText: 'Correo electronico'),
+                    border: null, hintText: 'Correo electronico'),
               ),
             ),
             SizedBox(
-              height: 16.0,
+              height: 10.0,
             ),
             Container(
-              width: 278.0,
-              height: 50.0,
+              width: 300.0,
+              height: 60.0,
+              padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   color: Colors.amber),
               child: TextFormField(
                 controller: widget.passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(color: Colors.amber)),
-                    hintText: 'Contraseña'),
+                // autovalidateMode: AutovalidateMode.always,
+                validator: (value) => value!.length < 6
+                    ? 'La contraseña no debe ser menor a 6 caracteres'
+                    : null,
+                decoration:
+                    InputDecoration(border: null, hintText: 'Contraseña'),
               ),
             ),
             SizedBox(
-              height: 16.0,
+              height: 13.0,
             ),
             Container(
-              width: 278.0,
-              height: 47.0,
+              width: 300.0,
+              height: 50.0,
               decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(20.0)),
               child: TextButton(
-                onPressed: () => widget.onPressed,
+                onPressed: widget.onPressed,
                 child: Text(
                   'Crear Cuenta',
                   style: TextStyle(color: Colors.white, fontSize: 18.0),

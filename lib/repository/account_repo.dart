@@ -2,7 +2,10 @@ import 'package:comic_quiz/data/account_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AccountRepo {
-  final AccountData _accountData = new AccountData();
+  final AccountData _accountData;
+
+  AccountRepo(this._accountData);
+
   User? get user => this._accountData.getUser();
 
   Future<User?> signUp(String email, String password) async {

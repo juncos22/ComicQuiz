@@ -1,6 +1,6 @@
 import 'package:comic_quiz/blocs/trivia/game_bloc.dart';
+import 'package:comic_quiz/data/account_data.dart';
 import 'package:comic_quiz/repository/account_repo.dart';
-import 'package:comic_quiz/repository/trivia_repo.dart';
 import 'package:comic_quiz/ui/menu/menu_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,7 @@ class ResultScreen extends StatelessWidget {
   static const String routeName = '/result';
   ResultScreen({Key? key, required this.score}) : super(key: key);
 
-  final AccountRepo _accountRepo = new AccountRepo();
-  final TriviaRepo _triviaRepo = new TriviaRepo();
+  final AccountRepo _accountRepo = new AccountRepo(AccountData());
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +102,6 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    this._triviaRepo.resetResult();
-
-                    // BlocProvider.of<GameBLoC>(context)
-                    //     .add(LoadQuestionsEvent());
-
                     await Navigator.pushReplacementNamed(context, 'level');
                   },
                 ),

@@ -47,12 +47,11 @@ class MenuScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
             MenuButton(
-                title: 'Comenzar a Jugar',
-                backgrounColor: HexColor('536DFE'),
-                fontWeight: FontWeight.bold,
-                onPressed: () async {
-                  await Navigator.pushReplacementNamed(context, 'level');
-                }),
+              title: 'Comenzar a Jugar',
+              backgrounColor: HexColor('536DFE'),
+              fontWeight: FontWeight.bold,
+              onPressed: () => this.user != null ? _goToLevel(context) : null,
+            ),
             (this.user != null)
                 ? MenuButton(
                     title: 'Observar mi Perfil',
@@ -121,5 +120,9 @@ class MenuScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _goToLevel(BuildContext context) async {
+    await Navigator.pushReplacementNamed(context, 'level');
   }
 }

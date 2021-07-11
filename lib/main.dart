@@ -1,7 +1,11 @@
 import 'package:comic_quiz/blocs/account/authentication_bloc.dart';
 import 'package:comic_quiz/blocs/account/authentication_bloc_delegate.dart';
 import 'package:comic_quiz/blocs/trivia/game_bloc_delegate.dart';
+import 'package:comic_quiz/data/account_data.dart';
+import 'package:comic_quiz/data/result_data.dart';
+import 'package:comic_quiz/data/trivia_data.dart';
 import 'package:comic_quiz/repository/account_repo.dart';
+import 'package:comic_quiz/repository/result_repo.dart';
 import 'package:comic_quiz/repository/trivia_repo.dart';
 import 'package:comic_quiz/ui/menu/menu_screen.dart';
 import 'package:comic_quiz/ui/profile/profile_screen.dart';
@@ -33,10 +37,11 @@ class ComicQuiz extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBLoC>(
-          create: (_) => AuthenticationBLoC(AccountRepo()),
+          create: (_) => AuthenticationBLoC(AccountRepo(AccountData())),
         ),
         BlocProvider<GameBLoC>(
-          create: (_) => GameBLoC(TriviaRepo(), AccountRepo()),
+          create: (_) => GameBLoC(TriviaRepo(TriviaData()),
+              AccountRepo(AccountData()), ResultRepo(ResultData())),
         ),
       ],
       child: MaterialApp(

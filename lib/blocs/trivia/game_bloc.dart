@@ -1,4 +1,5 @@
 import 'package:comic_quiz/repository/account_repo.dart';
+import 'package:comic_quiz/repository/result_repo.dart';
 import 'package:comic_quiz/repository/trivia_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:comic_quiz/models/option.dart';
@@ -10,10 +11,12 @@ part 'game_event.dart';
 part 'game_state.dart';
 
 class GameBLoC extends Bloc<GameEvent, GameState> {
-  GameBLoC(this._triviaRepo, this._accountRepo) : super(GameStartedState());
+  GameBLoC(this._triviaRepo, this._accountRepo, this._resultRepo)
+      : super(GameStartedState());
 
   final TriviaRepo _triviaRepo;
   final AccountRepo _accountRepo;
+  final ResultRepo _resultRepo;
 
   @override
   Stream<GameState> mapEventToState(GameEvent event) async* {
@@ -27,8 +30,18 @@ class GameBLoC extends Bloc<GameEvent, GameState> {
         if (question != null) {
           yield QuestionLoadedState(question);
         } else {
-          await this._triviaRepo.saveResultFrom(this._accountRepo.user);
-          yield GameFinishedState(this._triviaRepo.result!);
+          var result = new Result();
+          var username = this._accountRepo.user!.displayName!.isNotEmpty
+              ? this._accountRepo.user?.displayName!
+              : this._accountRepo.user?.email!;
+
+          result.username = username!;
+          result.score = this._resultRepo.score;
+
+          await this._resultRepo.saveResult(result);
+          this._resultRepo.resetResult();
+          this._triviaRepo.cleanAnsweredQuestions();
+          yield GameFinishedState(result);
         }
       } catch (e) {
         yield GameFailureState(e.toString());
@@ -36,7 +49,9 @@ class GameBLoC extends Bloc<GameEvent, GameState> {
     }
     if (event is AnswerQuestionEvent) {
       try {
-        this._triviaRepo.calculateResult(event.option);
+        this
+            ._resultRepo
+            .calculateResult(event.option, this._triviaRepo.questions.length);
         yield QuestionAnsweredState();
       } catch (e) {
         yield GameFailureState(e.toString());

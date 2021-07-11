@@ -31,54 +31,46 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 278.0,
-            height: 50.0,
+            width: 300.0,
+            height: 63.0,
+            padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0), color: Colors.amber),
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
               controller: widget.emailController,
-              // validator: (value) => value == null
-              //     ? "Complete el email"
-              //     : !value.contains('@')
-              //         ? "Email invalido"
-              //         : "",
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.amber)),
-                  hintText: 'Correo electronico'),
+              validator: (value) =>
+                  !value!.contains('@') ? 'Email invalido' : null,
+              decoration:
+                  InputDecoration(hintText: 'Correo electronico', border: null),
             ),
           ),
           SizedBox(
-            height: 16.0,
+            height: 10.0,
           ),
           Container(
-            width: 278.0,
-            height: 50.0,
+            width: 300.0,
+            height: 63.0,
+            padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0), color: Colors.amber),
             child: TextFormField(
               obscureText: true,
               controller: widget.passwordController,
-              // validator: (value) => value == null
-              //     ? "Complete la contraseña"
-              //     : value.length < 6
-              //         ? "La contraseña debe ser mayor a 6 caracteres"
-              //         : "",
+              validator: (value) => value!.length < 6
+                  ? 'La contraseña no debe ser menor a 6 caracteres'
+                  : null,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(color: Colors.amber)),
-                  hintText: 'Contraseña'),
+                labelText: 'Contraseña',
+              ),
             ),
           ),
           SizedBox(
-            height: 16.0,
+            height: 10.0,
           ),
           Container(
-            width: 278.0,
-            height: 47.0,
+            width: 300.0,
+            height: 50.0,
             decoration: BoxDecoration(
                 color: Colors.blue, borderRadius: BorderRadius.circular(20.0)),
             child: TextButton(
