@@ -1,6 +1,5 @@
 import 'package:comic_quiz/blocs/trivia/game_bloc.dart';
-import 'package:comic_quiz/data/account_data.dart';
-import 'package:comic_quiz/repository/account_repo.dart';
+import 'package:comic_quiz/ui/level/level_screen.dart';
 import 'package:comic_quiz/ui/menu/menu_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,6 @@ class ResultScreen extends StatelessWidget {
   final int score;
   static const String routeName = '/result';
   ResultScreen({Key? key, required this.score}) : super(key: key);
-
-  final AccountRepo _accountRepo = new AccountRepo(AccountData());
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +99,15 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    await Navigator.pushReplacementNamed(context, 'level');
+                    await Navigator.pushReplacementNamed(
+                        context, LevelScreen.routeName);
                   },
                 ),
                 BlocListener<GameBLoC, GameState>(
                   listener: (context, state) {
                     if (state is GameStartedState) {
-                      Navigator.of(context).pushReplacementNamed('level');
+                      Navigator.of(context)
+                          .pushReplacementNamed(LevelScreen.routeName);
                     }
                   },
                   child: TextButton(
@@ -122,13 +121,8 @@ class ResultScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => MenuScreen(
-                              user: this._accountRepo.user,
-                            ),
-                          ),
-                          (route) => false);
+                      Navigator.of(context)
+                          .pushReplacementNamed(MenuScreen.routeName);
                     },
                   ),
                 )

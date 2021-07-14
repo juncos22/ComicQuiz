@@ -18,13 +18,9 @@ class AnswerQuestionEvent extends GameEvent {
   List<Object?> get props => [this.option];
 }
 
-// class CalculateResultEvent extends GameEvent {}
+class RetrieveResultEvent extends GameEvent {
+  RetrieveResultEvent();
 
-// class RetrieveResultEvent extends GameEvent {
-//   final Result result;
-
-//   RetrieveResultEvent(this.result);
-
-//   @override
-//   List<Object?> get props => [this.result];
-// }
+  @override
+  List<Object?> get props => [];
+}

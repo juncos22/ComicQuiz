@@ -14,7 +14,6 @@ import 'package:comic_quiz/ui/level/level_screen.dart';
 import 'package:comic_quiz/ui/login/login_screen.dart';
 import 'package:comic_quiz/ui/register/register_screen.dart';
 import 'package:comic_quiz/ui/splash/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +30,7 @@ void main() async {
 
 class ComicQuiz extends StatelessWidget {
   ComicQuiz({Key? key}) : super(key: key);
+  static const String routeName = 'main';
 
   @override
   Widget build(BuildContext context) {
@@ -58,30 +58,22 @@ class ComicQuiz extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => ResultScreen(score: args['score'] as int),
             );
-          } else if (settings.name == ProfileScreen.routeName) {
-            final args = settings.arguments as Map<String, User?>;
-            return MaterialPageRoute(
-              builder: (context) => ProfileScreen(
-                user: args['user'],
-              ),
-            );
           }
         },
         routes: {
-          'login': (_) => LoginScreen(),
-          'register': (_) => RegisterScreen(),
-          'level': (_) => LevelScreen(),
-          'menu': (_) => MenuScreen(),
-          'profile': (_) => ProfileScreen(),
-          'main': (_) => ComicQuiz(),
+          LoginScreen.routeName: (_) => LoginScreen(),
+          RegisterScreen.routeName: (_) => RegisterScreen(),
+          LevelScreen.routeName: (_) => LevelScreen(),
+          MenuScreen.routeName: (_) => MenuScreen(),
+          ProfileScreen.routeName: (_) => ProfileScreen(),
+          ComicQuiz.routeName: (_) => ComicQuiz(),
+          SplashScreen.routeName: (_) => SplashScreen()
         },
         home: BlocBuilder<AuthenticationBLoC, AuthenticationState>(
           builder: (context, state) {
             if (state is AccountStateChanged) {
               if (state.user != null) {
-                return MenuScreen(
-                  user: state.user,
-                );
+                return MenuScreen();
               }
               return SplashScreen();
             }

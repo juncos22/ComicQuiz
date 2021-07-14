@@ -22,37 +22,26 @@ class ResultRepo {
   }
 
   Future<void> saveResult(Result result) async {
-    try {
-      result.playedAt = DateTime.now();
+    result.playedAt = DateTime.now().toLocal().toString().substring(0, 16);
 
-      await this._resultData.saveResult(result);
-      this.resetResult();
-    } on Exception catch (e) {
-      print(e);
-    }
+    await this._resultData.saveResult(result);
+    this.resetResult();
   }
 
   Future<void> loadResults() async {
-    try {
-      await this._resultData.loadAllResults().then((value) {
-        value.docs.forEach((element) {
-          var result = element.data() as Result;
-          this.results.add(result);
-        });
+    await this._resultData.loadAllResults().then((value) {
+      value.docs.forEach((element) {
+        var result = element.data() as Result;
+        this.results.add(result);
       });
-    } catch (e) {
-      print(e);
-    }
+    });
   }
 
   Future<Result?> getResultFrom(String username) async {
-    try {
-      await this._resultData.retrieveResultFrom(username).then((value) {
-        var result = value.data() as Result;
-        return result;
-      });
-    } catch (e) {
-      print(e);
+    var snapshot = await this._resultData.retrieveResultFrom(username);
+    if (snapshot.exists) {
+      Map<String, dynamic> dataJson = snapshot.data() as Map<String, dynamic>;
+      return new Result.fromJson(dataJson);
     }
     return null;
   }

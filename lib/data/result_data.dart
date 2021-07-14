@@ -17,6 +17,6 @@ class ResultData {
   }
 
   Future<DocumentSnapshot> retrieveResultFrom(String username) async {
-    return await this._firestore.doc(username).get();
+    return await this._firestore.collection('results').doc(username).get();
   }
 }

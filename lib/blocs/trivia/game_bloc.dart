@@ -31,7 +31,7 @@ class GameBLoC extends Bloc<GameEvent, GameState> {
           yield QuestionLoadedState(question);
         } else {
           var result = new Result();
-          var username = this._accountRepo.user!.displayName!.isNotEmpty
+          var username = this._accountRepo.user?.displayName != null
               ? this._accountRepo.user?.displayName!
               : this._accountRepo.user?.email!;
 
@@ -53,6 +53,19 @@ class GameBLoC extends Bloc<GameEvent, GameState> {
             ._resultRepo
             .calculateResult(event.option, this._triviaRepo.questions.length);
         yield QuestionAnsweredState();
+      } catch (e) {
+        yield GameFailureState(e.toString());
+      }
+    }
+    if (event is RetrieveResultEvent) {
+      try {
+        yield LoadingResultState();
+        var username = this._accountRepo.user?.displayName != null
+            ? this._accountRepo.user?.displayName
+            : this._accountRepo.user?.email;
+
+        var result = await this._resultRepo.getResultFrom(username!);
+        yield ResultLoadedState(result);
       } catch (e) {
         yield GameFailureState(e.toString());
       }

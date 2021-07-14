@@ -15,6 +15,11 @@ class RequestLoginEvent extends AuthenticationEvent {
   List<Object?> get props => [this.email, this.password];
 }
 
+class RequestLoginWithGoogle extends AuthenticationEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class RequestRegisterEvent extends AuthenticationEvent {
   final String email;
   final String password;

@@ -1,8 +1,10 @@
+import 'package:comic_quiz/ui/menu/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
+  static const routeName = 'splash';
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -13,9 +15,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 2), () async {
-      return await Navigator.pushReplacementNamed(context, 'menu');
-    });
+    if (mounted) {
+      Future.delayed(Duration(seconds: 2), () async {
+        return await Navigator.pushNamedAndRemoveUntil(
+            context, MenuScreen.routeName, (route) => false);
+      });
+    }
   }
 
   @override
@@ -42,7 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
             height: 144.0,
             child: CircleAvatar(
               child: Image(
-                image: AssetImage('assets/img/icon.png'),
+                fit: BoxFit.fill,
+                image: AssetImage('assets/icon/icon.png'),
               ),
             ),
           ),

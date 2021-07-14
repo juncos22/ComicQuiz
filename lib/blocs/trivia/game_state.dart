@@ -46,3 +46,16 @@ class GameFinishedState extends GameState {
   @override
   List<Object?> get props => [this.result];
 }
+
+class LoadingResultState extends GameState {
+  @override
+  List<Object?> get props => [];
+}
+
+class ResultLoadedState extends GameState {
+  final Result? result;
+
+  ResultLoadedState(this.result);
+  @override
+  List<Object?> get props => [this.result];
+}

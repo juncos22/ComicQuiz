@@ -1,14 +1,18 @@
+import 'package:comic_quiz/blocs/account/authentication_bloc.dart';
+import 'package:comic_quiz/ui/level/level_screen.dart';
+import 'package:comic_quiz/ui/login/login_screen.dart';
 import 'package:comic_quiz/ui/menu/components/menu_button.dart';
 import 'package:comic_quiz/ui/profile/profile_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:comic_quiz/ui/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key, this.user}) : super(key: key);
+  const MenuScreen({Key? key}) : super(key: key);
+  static const String routeName = 'menu';
 
-  final User? user;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -23,78 +27,108 @@ class MenuScreen extends StatelessWidget {
             colors: [HexColor('F57C00'), HexColor('E18E12')],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              width: 113.0,
-              height: 105.0,
-              child: CircleAvatar(
-                child: Image(image: AssetImage('assets/img/icon.png')),
-              ),
-            ),
-            (this.user != null)
-                ? Text(
-                    'Bienvenido/a de nuevo ${this.user?.email}',
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                  )
-                : Text(
-                    'Bienvenido/a a ComicQuiz!',
-                    style: TextStyle(color: Colors.white, fontSize: 20.0),
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                  ),
-            MenuButton(
-              title: 'Comenzar a Jugar',
-              backgrounColor: HexColor('536DFE'),
-              fontWeight: FontWeight.bold,
-              onPressed: () => this.user != null ? _goToLevel(context) : null,
-            ),
-            (this.user != null)
-                ? MenuButton(
-                    title: 'Observar mi Perfil',
-                    backgrounColor: HexColor('FF9800'),
-                    borderColor: HexColor('F57C00'),
-                    fontWeight: FontWeight.normal,
-                    onPressed: () async => await Navigator.of(context)
-                        .pushNamed(ProfileScreen.routeName,
-                            arguments: {'user': this.user}))
-                : Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MenuButton(
-                            title: 'Ingresar con mi cuenta',
-                            backgrounColor: HexColor('FF9800'),
-                            borderColor: HexColor('F57C00'),
-                            fontWeight: FontWeight.normal,
-                            onPressed: () =>
-                                Navigator.of(context).pushNamed('login')),
-                        SizedBox(
-                          height: 30.0,
-                        ),
-                        MenuButton(
-                            title: 'Registrarme',
-                            backgrounColor: HexColor('FF9800'),
-                            borderColor: HexColor('F57C00'),
-                            fontWeight: FontWeight.normal,
-                            onPressed: () =>
-                                Navigator.of(context).pushNamed('register')),
-                      ],
+        child: BlocBuilder<AuthenticationBLoC, AuthenticationState>(
+          builder: (context, state) {
+            if (state is AccountStateChanged) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 113.0,
+                    height: 105.0,
+                    child: CircleAvatar(
+                      child: Image(image: AssetImage('assets/icon/icon.png')),
                     ),
                   ),
-            MenuButton(
-                title: 'Salir',
-                backgrounColor: HexColor('BDBDBD'),
-                borderColor: HexColor('757575'),
-                fontWeight: FontWeight.normal,
-                onPressed: () async {
-                  await _requestExit(context);
-                }),
-          ],
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  (state.user != null)
+                      ? Text(
+                          (state.user?.displayName != null)
+                              ? 'Bienvenido/a de nuevo ${state.user?.displayName}'
+                              : 'Bienvenido/a de nuevo ${state.user?.email}',
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                        )
+                      : Text(
+                          'Bienvenido/a a ComicQuiz!',
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                        ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  (state.user != null)
+                      ? Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              MenuButton(
+                                title: 'Comenzar a Jugar',
+                                backgrounColor: HexColor('536DFE'),
+                                fontWeight: FontWeight.bold,
+                                onPressed: () => _goToLevel(context),
+                              ),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              MenuButton(
+                                  title: 'Observar mi Perfil',
+                                  backgrounColor: HexColor('FF9800'),
+                                  borderColor: HexColor('F57C00'),
+                                  fontWeight: FontWeight.normal,
+                                  onPressed: () async =>
+                                      await Navigator.of(context).pushNamed(
+                                        ProfileScreen.routeName,
+                                      )),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              MenuButton(
+                                  title: 'Ingresar con mi cuenta',
+                                  backgrounColor: HexColor('FF9800'),
+                                  borderColor: HexColor('F57C00'),
+                                  fontWeight: FontWeight.normal,
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed(LoginScreen.routeName)),
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              MenuButton(
+                                  title: 'Registrarme',
+                                  backgrounColor: HexColor('FF9800'),
+                                  borderColor: HexColor('F57C00'),
+                                  fontWeight: FontWeight.normal,
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed(RegisterScreen.routeName)),
+                            ],
+                          ),
+                        ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  MenuButton(
+                      title: 'Salir',
+                      backgrounColor: HexColor('BDBDBD'),
+                      borderColor: HexColor('757575'),
+                      fontWeight: FontWeight.normal,
+                      onPressed: () async {
+                        await _requestExit(context);
+                      }),
+                ],
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );
@@ -123,6 +157,6 @@ class MenuScreen extends StatelessWidget {
   }
 
   void _goToLevel(BuildContext context) async {
-    await Navigator.pushReplacementNamed(context, 'level');
+    await Navigator.pushReplacementNamed(context, LevelScreen.routeName);
   }
 }

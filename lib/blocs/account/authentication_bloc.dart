@@ -21,16 +21,28 @@ class AuthenticationBLoC
         yield LoggingInState();
         await this._accountRepo.login(event.email, event.password);
         yield LoginSuccessState();
-      } catch (e) {
+        yield AccountStateChanged(this._accountRepo);
+      } on Exception catch (e) {
+        yield LoginFailureState(e.toString());
+      }
+    }
+    if (event is RequestLoginWithGoogle) {
+      try {
+        yield LoggingInState();
+        await this._accountRepo.signInGoogle();
+        yield LoginSuccessState();
+        yield AccountStateChanged(this._accountRepo);
+      } on Exception catch (e) {
         yield LoginFailureState(e.toString());
       }
     }
     if (event is RequestRegisterEvent) {
-      yield LoggingInState();
       try {
+        yield LoggingInState();
         await this._accountRepo.signUp(event.email, event.password);
         yield LoginSuccessState();
-      } catch (e) {
+        yield AccountStateChanged(this._accountRepo);
+      } on Exception catch (e) {
         yield LoginFailureState(e.toString());
       }
     }
@@ -38,7 +50,8 @@ class AuthenticationBLoC
       try {
         await this._accountRepo.logout();
         yield LogoutSuccessState();
-      } catch (e) {
+        yield AccountStateChanged(this._accountRepo);
+      } on Exception catch (e) {
         yield LogoutFailureState(e.toString());
       }
     }

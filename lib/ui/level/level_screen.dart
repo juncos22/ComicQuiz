@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 class LevelScreen extends StatefulWidget {
   const LevelScreen({Key? key}) : super(key: key);
+  static const String routeName = 'level';
 
   @override
   _LevelScreenState createState() => _LevelScreenState();

@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "84497446384-mqp25u3uh4dl316brehi6t8r4mqle41l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.nicolas.comic_quiz",
+            "certificate_hash": "42dcb1e1ab8d7cb66cba705d7acd739a5f1a68b6"
+          }
+        },
+        {
           "client_id": "84497446384-kgdpsj4i1du0bfvanqffpkgt6ttdbf7v.apps.googleusercontent.com",
           "client_type": 3
         }

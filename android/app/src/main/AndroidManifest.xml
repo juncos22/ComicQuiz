@@ -2,8 +2,8 @@
     package="dev.nicolas.comic_quiz">
    <application
         android:usesCleartextTraffic="true"
-        android:label="comic_quiz"
-        android:icon="@mipmap/ic_launcher">
+        android:label="ComicQuiz"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

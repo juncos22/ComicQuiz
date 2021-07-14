@@ -9,29 +9,21 @@ class AccountRepo {
   User? get user => this._accountData.getUser();
 
   Future<User?> signUp(String email, String password) async {
-    try {
-      var credential = await this._accountData.createUser(email, password);
-      return credential.user;
-    } catch (e) {
-      print(e);
-    }
+    var credential = await this._accountData.createUser(email, password);
+    return credential.user;
+  }
+
+  Future<User?> signInGoogle() async {
+    var credential = await this._accountData.signInWithGoogle();
+    return credential.user;
   }
 
   Future<User?> login(String email, String password) async {
-    try {
-      // Logica de logeo con Firebase
-      var credential = await this._accountData.signIn(email, password);
-      return credential.user;
-    } catch (e) {
-      print(e);
-    }
+    var credential = await this._accountData.signIn(email, password);
+    return credential.user;
   }
 
   Future<void> logout() async {
-    try {
-      await this._accountData.signOut();
-    } catch (e) {
-      print(e);
-    }
+    await this._accountData.signOut();
   }
 }
